@@ -9,7 +9,7 @@ Liz Chai
 
 ## Team Members:
 Chris Harris
-
+Izzy Norris
 
 
 Group 9 is the best yo!

@@ -16,5 +16,6 @@ Liam Kinne
 Cody Baldry
 Izzy Norris
 Katrina MacDonald
+Calandra Grima
 
 Group 9 is the best yo!

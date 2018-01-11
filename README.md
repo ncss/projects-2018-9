@@ -14,5 +14,6 @@ Eugeniya Artemova
 Liam Kinne
 Cody Baldry
 Izzy Norris
+Katrina MacDonald
 
 Group 9 is the best yo!

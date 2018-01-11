@@ -12,6 +12,6 @@ Chris Harris
 Cormac Kikkert
 Eugeniya Artemova
 Cody Baldry
-
+Ada Luong
 
 Group 9 is the best yo!

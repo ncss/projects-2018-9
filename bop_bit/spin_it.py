@@ -7,13 +7,20 @@ import radio
 radio.on()
 radio.config(channel=69)
 
-def is_triggered()
-    zeroval = pin0.read_digital()
-    pin0.set_pull(pin0.PULL_UP)
-    oneval = pin1.read_digital()
-    pin1.set_pull(pin0.PULL_UP)
-
-    if zeroval == 1 or oneval == 1:
+def is_triggered():
+    prev_value = pin1.read_analog()
+    sleep(500)
+    cur_value = pin1.read_analog()
+    print(prev_value, cur_value)
+    if abs(cur_value-prev_value) >= 100:
         return True
     else:
         return False
+
+while True:
+    if is_triggered():
+        print('yes')
+    else:
+        print('no')
+
+

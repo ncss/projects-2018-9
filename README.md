@@ -18,5 +18,6 @@ Jamie Vo
 Izzy Norris
 Katrina MacDonald
 Calandra Grima
+Ada Luong
 
 Group 9 is the best yo!

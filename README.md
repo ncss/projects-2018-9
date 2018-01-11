@@ -19,5 +19,6 @@ Izzy Norris
 Katrina MacDonald
 Calandra Grima
 Ada Luong
+Will Bishop
 
 Group 9 is the best yo!

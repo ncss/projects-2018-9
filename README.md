@@ -11,6 +11,7 @@ Liz Chai
 Chris Harris
 Cormac Kikkert
 Eugeniya Artemova
+Lily Yang
 Ruchir Bapat
 Liam Kinne
 Cody Baldry

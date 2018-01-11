@@ -11,10 +11,10 @@ Liz Chai
 Chris Harris
 Cormac Kikkert
 Eugeniya Artemova
-<<<<<<< HEAD
+Ruchir Bapat
 Liam Kinne
 Cody Baldry
-
-
+Izzy Norris
+Katrina MacDonald
 
 Group 9 is the best yo!

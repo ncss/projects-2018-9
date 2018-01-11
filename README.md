@@ -9,8 +9,11 @@ Liz Chai
 
 ## Team Members:
 Chris Harris
+Cormac Kikkert
 Eugeniya Artemova
+<<<<<<< HEAD
 Liam Kinne
+Cody Baldry
 
 
 

@@ -10,6 +10,7 @@ Liz Chai
 ## Team Members:
 Chris Harris
 Izzy Norris
+Eugeniya Artemova
 
 
 Group 9 is the best yo!

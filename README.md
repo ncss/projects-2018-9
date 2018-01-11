@@ -10,7 +10,13 @@ Liz Chai
 ## Team Members:
 Chris Harris
 Eugeniya Artemova
+Lily Yang
+Ruchir Bapat
+Liam Kinne
 Cody Baldry
-
+Jamie Vo
+Izzy Norris
+Katrina MacDonald
+Calandra Grima
 
 Group 9 is the best yo!

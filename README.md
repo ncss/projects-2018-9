@@ -11,7 +11,7 @@ Liz Chai
 Chris Harris
 Cormac Kikkert
 Eugeniya Artemova
-
+Ruchir Bapat
 
 
 Group 9 is the best yo!

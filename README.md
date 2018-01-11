@@ -10,6 +10,7 @@ Liz Chai
 ## Team Members:
 Chris Harris
 Eugeniya Artemova
+Lily Yang
 
 
 

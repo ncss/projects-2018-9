@@ -11,7 +11,6 @@ Liz Chai
 Chris Harris
 Cormac Kikkert
 Eugeniya Artemova
-Jamie Vo
 <<<<<<< HEAD
 Liam Kinne
 Cody Baldry

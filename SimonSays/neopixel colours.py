@@ -1,6 +1,10 @@
 from microbit import *
 import neopixel
+import radio
 
+radio.on()
+radio.config(channel=73)
+unit_num = #insert num
 npix = neopixel.NeoPixel(pin0, 7)
 
 red = (255,0,0)
@@ -15,14 +19,13 @@ def LightAll(col):
     return
 
 while True:
-    LightAll(red)
-    sleep(5000)
-    LightAll(green)
-    sleep(5000)
-    LightAll(blue)
-    sleep(5000)
-    LightAll(yellow)
-    sleep(5000)
+    msg = radio.receive() #unit1:red EXAMPLE
+    if msg.startswith(unit_num):
+        colour = msg.split(':')[1]
+        LightAll(colour)
+        sleep(5000)
+        npix.clear()
+        break
     
     
     

@@ -9,9 +9,10 @@ Liz Chai
 
 ## Team Members:
 Chris Harris
-Izzy Norris
 Cormac Kikkert
 Eugeniya Artemova
+Liam Kinne
 Cody Baldry
+Izzy Norris
 
 Group 9 is the best yo!

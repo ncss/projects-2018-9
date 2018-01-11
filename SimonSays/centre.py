@@ -8,9 +8,10 @@ radio.config(channel=73, group="ncssgroup2") #Configures to radio to use its own
 units = [] #Units start as empty
 in_game = False
 def setup():
+    #give each unit name
     
     
-
     
-
-
+while True:
+    if radio.recieve() == 'requestname':
+        setup()

@@ -16,8 +16,8 @@ while True:
         if msg == "SNSR_RNDM-1":
             control = random.randint(1,9)
             radio.send("RNDM_INPT-" + str(control))
-            display.show(control)
+            display.show(str(control))
         elif msg == "INPT_RNDM-1":
             situp = random.randint(1,8)
             radio.send("RNDM_SNSR-" + str(situp))
-            display.show(situp)
+            display.show(str(situp))

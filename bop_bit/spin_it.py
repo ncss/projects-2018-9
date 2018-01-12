@@ -9,6 +9,9 @@ client = Client(69, "spin_it")
 
 debug = False
 
+cur_value = 0;
+prev_value = 0;
+
 def is_triggered():
     prev_value = pin1.read_analog()
     if debug print(prev_value, cur_value)

@@ -1,19 +1,17 @@
 from microbit import *
 
 # assign colour names to each of the pins
-red = pin0
-green = pin1
+red = pin13
+green = pin0
 
-#variable timer
-time_ms = 10000
+#variable timer in seconds * 1024 (to make life easier) :D
+seconds = 10
+time_ms = seconds * 1000
 
-ON = 1023
-
-while True:
+num_of_colours = 1024
+#while True:
     #decreasing time fraction
-    for i in range(time_ms):
-        print(int(time_ms/ON))
-        print((int(time_ms/ON)*i))
-        print(ON-((int(time_ms/ON)*i)))
-        #green.write_analog(ON-((int(time_ms/ON)*i)))
-   
+for up, down in zip(range(num_of_colours), range(num_of_colours-1, 0, -1)):
+    green.write_analog(down)
+    red.write_analog(up)
+    sleep(time_ms/num_of_colours)

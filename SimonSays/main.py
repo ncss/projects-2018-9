@@ -1,13 +1,11 @@
-from microbit import *
-import radio
+from quokka import *
 import random
-import math
 
-radio.on()
+radio.enable()
 
-start_button = button_a #Change for whatever button it is configured to
+start_button = buttons.a #Change for whatever button it is configured to
 
-radio.config(channel=73, group=2) #Configures to radio to use its own channel to prevent noise
+radio.config(channel=73) #Configures to radio to use its own channel to prevent noise
 
 colours = ["red", "green", "blue", "yellow"] #Interpreted by clients
 units = [] #Units start as empty
@@ -73,8 +71,9 @@ while True:
         new_game()
         sequence = generate_sequence(3)
         in_round = True
-    
-    display.show(str(len(units)))
+    display.fill(0)
+    display.large_text(str(len(units)), 5, 5, scale=8)
+    display.show()
     
     receive = radio.receive()
     if not receive:

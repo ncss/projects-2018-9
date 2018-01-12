@@ -7,7 +7,7 @@ Components:
 10x Buttons(Preferably big red button at centre)
 Lots of Cables
 
-Radio messages sent by Centre:
+Radio messages sent by Centre(Quokka):
 "all:newgame:1"
 "%s:setup:1" % unit_name                         #Example: unit1:setup:1	
 "%s:colour:%s" % (element, colour_list[index])   #Example: unit2:colour:blue
@@ -15,7 +15,7 @@ Radio messages sent by Centre:
 "%s:correct:0" % unit                            #Example: unit3:correct:0
  
 
-Radio messages sent by Units:
+Radio messages sent by Units(Microbits):
 unit_name + ":pressed:1"                         #Example: unit2:pressed:1
 "requestname"
 unit_name + ":pressed:1"                         #Example: unit2:pressed:1

@@ -20,22 +20,18 @@ def light_all(colour):
 set_up = False
 unit_name = ''
 
-def Orientation(unit_name):
-    while True: #tells player where each colour is at
-    msg = radio.receive() #unit1:red EXAMPLE
-    if msg:
-        if msg.startswith(unit_name):
-            colour = msg.split(':')[1]
-            light_all(colour)
-            sleep(5000)
-            npix.clear()
-            break
-            
+def set_colour(colour):
+#tells player where each colour is at
+    light_all(colour)
+    sleep(5000) 
+    npix.clear()
+  
 #start up
 radio.on()
 radio.config(channel=73, group=2)
 #to get name from center unit
 radio.send("requestname")
+npix.clear()
 
 while set_up == False:
     msg = radio.receive()
@@ -47,16 +43,13 @@ while set_up == False:
             set_up = True    
 
 while True:
-    msg = radio.receive() #unit1:red EXAMPLE
+    msg = radio.receive() #unit1:colour:red EXAMPLE
     if msg:
-        print(msg)
-        if msg.startswith(unit_name):
-            print('in thing')
-            colour = msg.split(':')[1]
-            light_all(colour)
-            sleep(5000)
-            npix.clear()
-            break
+        msg = msg.split(':')
+        
+        if msg[0] == unit_name:
+            if msg[1] == 'colour':
+                set_colour(msg[2])
     
-
+#unit_name:instruction:data
 

@@ -18,10 +18,12 @@ def setup():
 
 colours = ["red", "green", "blue", "yellow"] #Interpreted by clients
 
+
+
 def new_game():
     radio.send("newgame") #Client receives this and resets variables (possibly)
     for index, element in  enumerate(units): #Send a colour to each unit
-        radio.send("%s:%s" % (element, colours[index])) #"unit3:blue"
+        radio.send("%s:colour:%s" % (element, colours[index])) #"unit3:color:blue"
     
 while True:
     if radio.receive() == 'requestname' and not in_game:
@@ -31,4 +33,5 @@ while True:
     if not in_game and start_button.was_pressed():
         new_game()
         in_game = True
+    display.show(str(len(units)))
     

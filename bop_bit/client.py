@@ -7,18 +7,25 @@ class Client:
 	def __init__(self, chan, name):
 		self.channel = chan
 		self.name = name.lower()
-		radio.configure(channel = self.channel)
+		radio.on()
+		radio.config(channel = self.channel)
 		#print("Configured Client")
 
-	def send_trigger():
-		message += self.name
+	def send_trigger(self):
+		message = self.name
 		message += ":"
 		message += "triggered"
 		radio.send(message)
 		#print("Sent: " + message)
 
-	def send_alive():
-		message += self.name
+	def send_alive(self):
+		message = self.name
 		message += ":"
 		message += "alive"
 		#print("Sent: " + message)
+
+client = Client(69, "spin_it")
+
+while True:
+	client.send_trigger()
+	sleep(250)

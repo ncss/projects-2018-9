@@ -24,9 +24,6 @@ class Server:
 			state = False
 		return state
 
-server = Server(69)
-
-while True:
-	server.update()
-	print(server.get_module_was_triggered("spin_it"))
-	sleep(250)
+	def set_module_was_triggered(self, module)
+		if module in self.modules:
+			modules[module] = True

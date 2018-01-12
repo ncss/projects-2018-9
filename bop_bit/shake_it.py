@@ -1,5 +1,6 @@
 # Shake it
 # https://trello.com/c/5Buph40r
+from microbit import *
 import radio
 
 class Client:
@@ -23,3 +24,14 @@ class Client:
 		message += ":"
 		message += "alive"
 		#print("Sent: " + message)
+
+client = Client(69, "shake_it")
+
+while True:
+    gesture = accelerometer.was_gesture("shake")
+    if gesture:
+        display.show(Image.HAPPY)
+        client.send_trigger()
+        #print('YAY')
+    else:
+        display.show(Image.SAD)

@@ -23,9 +23,3 @@ class Client:
 		message += ":"
 		message += "alive"
 		#print("Sent: " + message)
-
-client = Client(69, "spin_it")
-
-while True:
-	client.send_trigger()
-	sleep(250)

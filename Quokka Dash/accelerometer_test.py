@@ -1,4 +1,6 @@
 from microbit import *
+radio.on()
+
 control = 0
 control_values = 0
 num = 100
@@ -24,7 +26,7 @@ while True:
     if abs(y_base) > 900:
         percent = abs(y_base)/10
         print(str(percent)+" percent")
-
+    radio.send("L: "+str())
     #if y > 1000:
         #print("jumped")
     #else:

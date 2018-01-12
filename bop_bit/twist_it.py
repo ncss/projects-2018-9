@@ -3,6 +3,7 @@
 
 from microbit import *
 import radio
+debug = False
 
 class Client:
     """Sends trigger messages to a server on the same channel"""
@@ -53,7 +54,8 @@ def is_triggered():
             if (not pin_state_b and pin_state_a):     # check if before other pin
                 counter -= 1
     
-        print(str(counter), wait=False)
+        if debug:
+            print(str(counter), wait=False)
         # remember states
         pin_last_a = pin_state_a
         pin_last_b = pin_state_b

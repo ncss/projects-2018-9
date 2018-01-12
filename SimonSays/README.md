@@ -15,12 +15,11 @@ Radio messages sent by Centre:
 "%s:correct:0" % unit                            #Example: unit3:correct:0
  
 
-Radio messages sent by units:
+Radio messages sent by Units:
 unit_name + ":pressed:1"                         #Example: unit2:pressed:1
 "requestname"
 unit_name + ":pressed:1"                         #Example: unit2:pressed:1
 
 
-
-
-Protocol - unit#:instruction:data
+Protocols:
+unit#:instruction:data

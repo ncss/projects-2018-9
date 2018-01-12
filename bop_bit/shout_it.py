@@ -3,9 +3,9 @@
 
 from microbit import *
 import radio
+import client
 
-radio.on()
-radio.config(channel=69)
+client = Client(69, "spin_it")
 
 debug = False
 
@@ -22,5 +22,6 @@ def is_triggered():
     
 while True:
     if is_triggered() == True:
+        client.send_trigger()
         if debug:
             print('yes')

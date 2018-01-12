@@ -20,6 +20,8 @@ unit_name + ":pressed:1"                         #Example: unit2:pressed:1
 "requestname"
 unit_name + ":pressed:1"                         #Example: unit2:pressed:1
 
+Radio Channel: 73
 
 Protocols:
 unit#:instruction:data
+

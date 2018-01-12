@@ -4,10 +4,12 @@ import neopixel
 
 unit_name = '' 
 unit_colour = '' #will be set to the rounds colour for this unit
-lit = False
 set_up = False
 
+RAINBOW = [(255,0,0),(255,140,0),(255,255,0),(0,255,162),(0,128,0),(0,0,255),(145,0,255),(75,0,130),(255,130,238),(0,0,0)]
+
 npix = neopixel.NeoPixel(pin0, 10)
+npix.clear()
 
 colours = { 'red' : (255,0,0),
             'green' : (0,255,0),
@@ -28,20 +30,26 @@ def clear_colour():
     npix.clear()
     
 def incorrect():
-    flash_delay = 100
+    flash_delay = 300
+    new_game = False
+    wait_time = 0
+    lit = False
     #while not message received. Make red flash
     while not new_game:
         current_time = running_time()
         display.show(Image.SAD)
         
         if current_time > wait_time:
+            print(0)
             if lit:
+                print(1)
                 npix.clear()
                 lit = False
             else:
+                print(2)
                 lit = True
-                for pix in range(0, len(npix)):
-                    npix[pix] = colours[red]
+                for pix in range(0, 10):
+                    npix[pix] = colours['red']
                 
             wait_time = running_time() + flash_delay
             
@@ -56,18 +64,24 @@ def button_press(unit_colour):
 
 def round_finished():
     new_game = False
+    n = 0
     display.show(Image.HAPPY)
     while new_game != True:
-        #scroll rainbows
-        display.show(Image.HAPPY)
+        #rainbows
+        for pix in range(len(npix)):
+            npix[(pix+n)%len(npix)] = RAINBOW[pix%len(RAINBOW)]
+        npix.show()
+        n += 1
         
         msg = radio.receive()
         if msg:
             unit_call, instruction, value = msg_split(msg)
             if instruction == 'new_game':
                 new_game = True
+                display.clear()
 
 def msg_split(msg):
+    print(msg)
     msg = msg.split(':')
     if len(msg) != 3:
         return('','','')
@@ -80,7 +94,7 @@ def msg_split(msg):
 
 #START
 radio.on()
-radio.config(channel=73, group=2)
+radio.config(channel=73)
 #to get name from center unit
 radio.send("requestname")
 npix.clear()

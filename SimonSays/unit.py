@@ -2,10 +2,10 @@ from microbit import *
 import radio
 import neopixel
 
-set_up = False
 unit_name = '' 
-lit = False
 unit_colour = '' #will be set to the rounds colour for this unit
+lit = False
+set_up = False
 
 npix = neopixel.NeoPixel(pin0, 10)
 
@@ -99,6 +99,7 @@ while set_up == False:
             display.clear()
             set_up = True  
 
+#main loop
 while True:
     msg = radio.receive() #EXAMPLE: unit1:colour:red
     if msg:
@@ -116,7 +117,7 @@ while True:
             
             if instruction == 'colour':
                 set_colour(value)
-                unit_colour = value     #sets global value to latest colour
+                unit_colour = value     #sets global value to colour
             
     if button_a.was_pressed():          #sends signal to centre
         button_press(unit_colour) 

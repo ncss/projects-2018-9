@@ -1,7 +1,6 @@
 from microbit import *
 import radio
 import neopixel
-import random #currently not required, should only be used on central
 
 set_up = False
 unit_name = '' 
@@ -14,7 +13,6 @@ colours = { 'red' : (255,0,0),
             'green' : (0,255,0),
             'blue' : (0,0,255),
             'yellow' : (255,255,0) }
-
 
 def light_all(colour):
     for pix in range(0, len(npix)):
@@ -59,7 +57,6 @@ def button_press(unit_colour):
 def round_finished():
     new_game = False
     display.show(Image.HAPPY)
-    #scroll rainbows
     while new_game != True:
         #scroll rainbows
         display.show(Image.HAPPY)
@@ -72,6 +69,9 @@ def round_finished():
 
 def msg_split(msg):
     msg = msg.split(':')
+    if len(msg) != 3:
+        return('','','')
+        #break
     unit_call = msg[0]
     instruction = msg[1]
     value = msg[2]
@@ -111,13 +111,16 @@ while True:
             
             if instruction == 'round_finished':
                 round_finished()
+                
+            #if instruction == 'new_round':    
             
             if instruction == 'colour':
                 set_colour(value)
                 unit_colour = value     #sets global value to latest colour
             
     if button_a.was_pressed():          #sends signal to centre
-        button_press(unit_colour)   
-    
+        button_press(unit_colour) 
+
+#PROTOCOL    
 #unit_call:instruction:value
 

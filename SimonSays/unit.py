@@ -5,7 +5,6 @@ import random #currently not required, should only be used on central
 
 npix = neopixel.NeoPixel(pin0, 7)
 
-#colors
 colours = { 'red' : (255,0,0),
             'green' : (0,255,0),
             'blue' : (0,0,255),
@@ -21,6 +20,17 @@ def LightAll(colour):
 set_up = False
 unit_name = ''
 
+def Orientation(unit_name):
+    while True: #tells player where each colour is at
+    msg = radio.receive() #unit1:red EXAMPLE
+    if msg:
+        if msg.startswith(unit_name):
+            colour = msg.split(':')[1]
+            LightAll(colour)
+            sleep(5000)
+            npix.clear()
+            break
+            
 #start up
 radio.on()
 radio.config(channel=73, group=2)
@@ -48,3 +58,5 @@ while True:
             npix.clear()
             break
     
+
+

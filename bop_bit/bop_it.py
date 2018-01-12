@@ -26,7 +26,7 @@ class Server:
 			state = False
 		return state
 
-	def set_module_was_triggered(self, module)
+	def set_module_was_triggered(self, module):
 		if module in self.modules:
 			modules[module] = True
 

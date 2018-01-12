@@ -1,5 +1,7 @@
 from microbit import *
+import radio
 radio.on()
+ID = "L:"
 
 control = 0
 control_values = 0
@@ -16,7 +18,8 @@ def check():
     y = accelerometer.get_y()
     z = accelerometer.get_z()
     print("x, y, z:", x, y, z)
-
+count = 1
+jumps = 0
 while True:
     y = accelerometer.get_y()
     y_base = y-control
@@ -26,9 +29,13 @@ while True:
     if abs(y_base) > 900:
         percent = abs(y_base)/10
         print(str(percent)+" percent")
-    radio.send("L: "+str())
+    if count == 16:
+        radio.send("L: "+jumps)
+        count = 1
+        jumps = 0
     #if y > 1000:
         #print("jumped")
     #else:
         #print("still")
-    sleep(30)
+    count += 1
+    sleep(125)

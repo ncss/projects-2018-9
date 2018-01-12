@@ -4,13 +4,17 @@
 from microbit import *
 #connect to pin 0 and 3V
 
+debug = False
+
 def is_triggered():
     pressed = pin0.read_digital()
     if pressed == 0:
-        print('yes')
+        if debug:
+            print('yes')
         return True
     else:
-        print('no')
+        if debug:
+            print('no')
         return False
 
 

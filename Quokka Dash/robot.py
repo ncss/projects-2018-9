@@ -1,3 +1,6 @@
+from microbit import *
+import radio 
+
 def amap(x, in_min, in_max, out_min, out_max):
     return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min
 
@@ -26,14 +29,20 @@ class Controller:
         self.robot = robot
         self.left_speed = 0
         self.right_speed = 0
-
     def update(self):
         msg = radio.receive()
         if msg:
-            wheel, speed = msg.split()
+            wheel, speed = msg.split(':')
             if wheel == 'L':
-                self.left_speed = amap(speed, -100, 100, -Controller.MAX_SPEED, Controller.MAX_SPEED)
+                self.left_speed = amap(speed, 0, 100, 0, Controller.MAX_SPEED)
+                radio.send('R:send')
             elif wheel == 'R':
-                self.right_speed = amap(speed, -100, 100, -Controller.MAX_SPEED, Controller.MAX_SPEED)
+                self.right_speed = amap(speed, 0, 100, 0, Controller.MAX_SPEED)
+                radio.send('L:send')
         self.robot.motors(self.left_speed, self.right_speed)
 
+thing = Robot([pin12, pin8], [pin16, pin0])
+while True:
+    thing.motors(1, 1)
+'''radio.on()
+radio.config(channel=72)'''

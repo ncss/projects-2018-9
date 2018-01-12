@@ -56,20 +56,34 @@ npix.clear()
 while set_up == False:
     msg = radio.receive()
     if msg:
-        if msg.startswith('setup'):
-            unit_name = msg.split(':')[1]
-            display.scroll(unit_name)
-            print(unit_name)
+        msg = msg.split(':')
+        unit_call = msg[0]
+        instruction = msg[1]
+        value = msg[2]
+        
+        if instruction == 'setup':
+            unit_name == unit_call
+            display.scroll(unit_name)   #testing
+            print(unit_name)            #testing
             set_up = True    
 
 while True:
-    msg = radio.receive() #unit1:colour:red EXAMPLE
+    msg = radio.receive() #EXAMPLE: unit1:colour:red
     if msg:
         msg = msg.split(':')
+        unit_call = msg[0]
+        instruction = msg[1]
+        value = msg[2]
         
-        if msg[0] == unit_name:
-            if msg[1] == 'colour':
-                set_colour(msg[2])
+        if unit_call == unit_name:
+            if instruction == 'incorrect':
+                incorrect()
+            
+            if instruction == 'colour':
+                set_colour(value)
+                
+    if button_a.was_pressed():      #sends signal to centre
+        radio.send(unit_name + ':pressed:1')
     
-#unit_name:instruction:data
+#unit_call:instruction:value
 

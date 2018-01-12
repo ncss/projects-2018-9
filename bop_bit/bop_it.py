@@ -71,6 +71,7 @@ while True:
                     # die
                     # play bad sound
                     # incomplete
+                    # send score to leaderboard
                     sleep(5000)
                     break # go back to waiting for button press
                 else:

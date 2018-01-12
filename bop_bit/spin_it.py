@@ -3,9 +3,9 @@
 
 from microbit import *
 import radio
+import client
 
-radio.on()
-radio.config(channel=69)
+client = Client(69, "spin_it")
 
 def is_triggered():
     prev_value = pin1.read_analog()
@@ -19,8 +19,7 @@ def is_triggered():
 
 while True:
     if is_triggered():
-        print('yes')
-    else:
-        print('no')
+        client.send_trigger()
+        #print('yes') # debug
 
 

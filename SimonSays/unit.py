@@ -3,10 +3,10 @@ import radio
 import neopixel
 import random #currently not required, should only be used on central
 
-flash_delay = 100
 set_up = False
 unit_name = '' 
 lit = False
+unit_colour = '' #will be set to the rounds colour for this unit
 
 npix = neopixel.NeoPixel(pin0, 7)
 
@@ -30,6 +30,7 @@ def clear_colour():
     npix.clear()
     
 def incorrect():
+    flash_delay = 100
     #while not message received. Make red flash
     while not new_game:
         current_time = running_time()
@@ -45,6 +46,15 @@ def incorrect():
                 npix[pix] = colours[red]
                 
             wait_time = running_time() + flash_delay
+            
+def button_press(unit_colour):
+    press_delay = 400
+    radio.send(unit_name + ':pressed:1')   #check
+    npix.clear()
+    wait_time = running_time() + press_delay
+    while running_time() < wait_time:
+        continue
+    light_all(unit_colour)
 
 #start up
 radio.on()
@@ -81,9 +91,11 @@ while True:
             
             if instruction == 'colour':
                 set_colour(value)
-                
-    if button_a.was_pressed():      #sends signal to centre
-        radio.send(unit_name + ':pressed:1')
+                unit_colour = value     #sets global value to latest colour
+            
+    if button_a.was_pressed():          #sends signal to centre
+        button_press(unit_colour)
+        
     
 #unit_call:instruction:value
 

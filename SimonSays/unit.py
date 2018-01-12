@@ -3,6 +3,11 @@ import radio
 import neopixel
 import random #currently not required, should only be used on central
 
+flash_delay = 100
+set_up = False
+unit_name = '' 
+lit = False
+
 npix = neopixel.NeoPixel(pin0, 7)
 
 colours = { 'red' : (255,0,0),
@@ -17,15 +22,30 @@ def light_all(colour):
     npix.show()
     return
 
-set_up = False
-unit_name = ''
-
 def set_colour(colour):
-#tells player where each colour is at
+#Shows colour, until turned off
     light_all(colour)
-    sleep(5000) 
+    
+def clear_colour():    
     npix.clear()
-  
+    
+def incorrect():
+    #while not message received. Make red flash
+    while not new_game:
+        current_time = running_time()
+        display.show(Image.SAD)
+        
+        if current_time > wait_time:
+            if lit:
+                npix.clear()
+                lit = False
+            else:
+                lit = True
+                for pix in range(0, len(npix)):
+                npix[pix] = colours[red]
+                
+            wait_time = running_time() + flash_delay
+
 #start up
 radio.on()
 radio.config(channel=73, group=2)

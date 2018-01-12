@@ -3,7 +3,7 @@ Simon Says
 Components:
 4x microbits(minimimum)
 1x Quokka
-5x Neopixels
+4x Neopixels
 10x Buttons(Preferably big red button at centre)
 Lots of Cables
 
@@ -18,7 +18,6 @@ Radio messages sent by Centre(Quokka):
 Radio messages sent by Units(Microbits):
 unit_name + ":pressed:1"                         #Example: unit2:pressed:1
 "requestname"
-unit_name + ":pressed:1"                         #Example: unit2:pressed:1
 
 Radio Channel: 73
 

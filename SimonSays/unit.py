@@ -11,7 +11,7 @@ colours = { 'red' : (255,0,0),
             'yellow' : (255,255,0) }
 
 
-def LightAll(colour):
+def light_all(colour):
     for pix in range(0, len(npix)):
         npix[pix] = colours[colour]
     npix.show()
@@ -26,7 +26,7 @@ def Orientation(unit_name):
     if msg:
         if msg.startswith(unit_name):
             colour = msg.split(':')[1]
-            LightAll(colour)
+            light_all(colour)
             sleep(5000)
             npix.clear()
             break
@@ -53,7 +53,7 @@ while True:
         if msg.startswith(unit_name):
             print('in thing')
             colour = msg.split(':')[1]
-            LightAll(colour)
+            light_all(colour)
             sleep(5000)
             npix.clear()
             break

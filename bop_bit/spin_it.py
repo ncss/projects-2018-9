@@ -7,16 +7,18 @@ import client
 
 client = Client(69, "spin_it")
 
+debug = False
+
 def is_triggered():
     prev_value = pin1.read_analog()
-    sleep(500)
-    cur_value = pin1.read_analog()
-    print(prev_value, cur_value)
-    return abs(cur_value-prev_value) >= 100
+    if debug print(prev_value, cur_value)
+    if abs(cur_value-prev_value) >= 100:
+        cur_value = prev_value
+        return True
+    else:
+        return False
 
 while True:
     if is_triggered():
         client.send_trigger()
-        #print('yes') # debug
-
-
+        if debug print('yes')

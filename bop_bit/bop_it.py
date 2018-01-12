@@ -32,20 +32,19 @@ class Server:
 
 server = Server(69)
 
-debug = False
+debug = True
 
 def is_triggered():
     pressed = pin0.read_digital()
     if pressed == 0:
-        if debug: print('yes')
         return True
     else:
-        if debug: print('no')
         return False
 
 """ GAME STUFF """
 
 def set_to_default_game_state():
+    if debug: print("set_to_default_game_state")
     timeout = 5000
     module_current = ""
     lives = 3
@@ -54,6 +53,7 @@ def set_to_default_game_state():
     speed = 0
 
 def pick_next_module():
+    if debug: print("pick_next_module")
     module_current = random.choice(server.modules)
     begin_time = running_time()
     # say module with text to speech
@@ -65,9 +65,9 @@ while True:
         pick_next_module()
         while True:
             # check timeout
-            if running_time() - begin_time >= timeout - speed:
+            if (running_time() - begin_time) >= (timeout - speed):
                 # ran out of time!
-                if (lives > 0)
+                if (lives <= 0):
                     # die
                     # play bad sound
                     # incomplete
@@ -81,6 +81,7 @@ while True:
                 server.set_module_was_triggered("bop_it")
             
             if server.get_module_was_triggered(module_current):
+                if debug: print("module_was_triggered")
                 # yay! go to next
                 score += 1 # incriment score
                 # increase speed

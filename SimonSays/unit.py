@@ -1,15 +1,18 @@
 from microbit import *
 import radio
 import neopixel
-import random #currently not required, should only be used on central
 
-npix = neopixel.NeoPixel(pin0, 7)
+unit_name = '' 
+unit_colour = '' #will be set to the rounds colour for this unit
+lit = False
+set_up = False
+
+npix = neopixel.NeoPixel(pin0, 10)
 
 colours = { 'red' : (255,0,0),
             'green' : (0,255,0),
             'blue' : (0,0,255),
             'yellow' : (255,255,0) }
-
 
 def light_all(colour):
     for pix in range(0, len(npix)):
@@ -17,39 +20,108 @@ def light_all(colour):
     npix.show()
     return
 
-set_up = False
-unit_name = ''
-
 def set_colour(colour):
-#tells player where each colour is at
+#Shows colour, until turned off
     light_all(colour)
-    sleep(5000) 
+    
+def clear_colour():    
     npix.clear()
-  
-#start up
+    
+def incorrect():
+    flash_delay = 100
+    #while not message received. Make red flash
+    while not new_game:
+        current_time = running_time()
+        display.show(Image.SAD)
+        
+        if current_time > wait_time:
+            if lit:
+                npix.clear()
+                lit = False
+            else:
+                lit = True
+                for pix in range(0, len(npix)):
+                    npix[pix] = colours[red]
+                
+            wait_time = running_time() + flash_delay
+            
+def button_press(unit_colour):
+    press_delay = 400
+    radio.send(unit_name + ':pressed:1')   #check
+    npix.clear()
+    wait_time = running_time() + press_delay
+    while running_time() < wait_time:
+        continue
+    light_all(unit_colour)
+
+def round_finished():
+    new_game = False
+    display.show(Image.HAPPY)
+    while new_game != True:
+        #scroll rainbows
+        display.show(Image.HAPPY)
+        
+        msg = radio.receive()
+        if msg:
+            unit_call, instruction, value = msg_split(msg)
+            if instruction == 'new_game':
+                new_game = True
+
+def msg_split(msg):
+    msg = msg.split(':')
+    if len(msg) != 3:
+        return('','','')
+        #break
+    unit_call = msg[0]
+    instruction = msg[1]
+    value = msg[2]
+    return(unit_call, instruction, value)
+        
+
+#START
 radio.on()
 radio.config(channel=73, group=2)
 #to get name from center unit
 radio.send("requestname")
 npix.clear()
+display.clear()
 
 while set_up == False:
+    display.show(Image.SQUARE)
     msg = radio.receive()
     if msg:
-        if msg.startswith('setup'):
-            unit_name = msg.split(':')[1]
-            display.scroll(unit_name)
-            print(unit_name)
-            set_up = True    
+        unit_call, instruction, value = msg_split(msg)
+        #print(unit_call, instruction, value)
+        if instruction == 'setup':
+            unit_name = unit_call
+            #display.scroll(unit_name)   #testing
+            print(unit_name)            #testing
+            display.clear()
+            set_up = True  
 
+#main loop
 while True:
-    msg = radio.receive() #unit1:colour:red EXAMPLE
+    msg = radio.receive() #EXAMPLE: unit1:colour:red
     if msg:
-        msg = msg.split(':')
+        unit_call, instruction, value = msg_split(msg)
+        #print(unit_call, instruction, value)
         
-        if msg[0] == unit_name:
-            if msg[1] == 'colour':
-                set_colour(msg[2])
-    
-#unit_name:instruction:data
+        if unit_call == unit_name:
+            if instruction == 'incorrect':
+                incorrect()
+            
+            if instruction == 'round_finished':
+                round_finished()
+                
+            #if instruction == 'new_round':    
+            
+            if instruction == 'colour':
+                set_colour(value)
+                unit_colour = value     #sets global value to colour
+            
+    if button_a.was_pressed():          #sends signal to centre
+        button_press(unit_colour) 
+
+#PROTOCOL    
+#unit_call:instruction:value
 

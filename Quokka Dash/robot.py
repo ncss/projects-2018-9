@@ -46,8 +46,7 @@ class Robot:
 class Controller:
     MAX_SPEED = 0.6
     DELAY = 1000
-    LED_UPDATE = 10
-    END_POINTS = [(0, 3), (0, 2), (1, 1), (2, 1), (3, 1), (4, 2), (4, 3)]
+    
     
     def __init__(self, robot):
         self.robot = robot

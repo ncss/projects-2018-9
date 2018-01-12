@@ -12,10 +12,7 @@ def is_triggered():
     sleep(500)
     cur_value = pin1.read_analog()
     print(prev_value, cur_value)
-    if abs(cur_value-prev_value) >= 100:
-        return True
-    else:
-        return False
+    return abs(cur_value-prev_value) >= 100
 
 while True:
     if is_triggered():

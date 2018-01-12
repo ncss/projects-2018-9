@@ -43,7 +43,49 @@ def is_triggered():
 		if debug: print('no')
 		return False
 
+""" GAME STUFF """
+
+def set_to_default_game_state():
+	timeout = 5000
+	module_current = ""
+	lives = 3
+	begin_time = running_time()
+	score = 0
+	speed = 0
+
+def pick_next_module():
+	module_current = random.choice(server.modules)
+	begin_time = running_time()
+	# say module with text to speech
+
 while True:
-	# this
-	if is_triggered():
-		server.set_module_was_triggered("bop_it")
+	while not is_triggered():
+		# start game!
+		set_to_default_game_state()
+		pick_next_module()
+		while True:
+			# check timeout
+			if running_time() - begin_time >= timeout - speed:
+				# ran out of time!
+				if (lives > 0)
+					# die
+					# play bad sound
+					# incomplete
+					sleep(5000)
+					break # go back to waiting for button press
+				else:
+					lives -= 1 # remove a life
+				continue
+
+			if is_triggered():
+				server.set_module_was_triggered("bop_it")
+			
+			if server.get_module_was_triggered(module_current):
+				# yay! go to next
+				score += 1 # incriment score
+				# increase speed
+				if speed > 1000:
+					speed += 10
+				# pick next module
+				pick_next_module()
+				continue

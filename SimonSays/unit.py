@@ -54,6 +54,7 @@ def incorrect():
                 
             wait_time = running_time() + flash_delay
             
+            
         #sad face
         if current_time > sad_wait_time:
             if sad_shift:

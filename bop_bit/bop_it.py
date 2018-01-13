@@ -54,14 +54,16 @@ speed = 0
 trigger_last = False
 radio.send("score:new_game")
 
-while True:       
-    module_current = random.choice(list(server.modules.keys()))
+while True:
+    module_current = random.choice(list(server.modules.keys())) # will be bop_it on first run
     radio.send(module_current + ":is_module") # e.g. "bop_it:is_module"
     begin_time = running_time()
     while True:
+        server.update()
         if (running_time() - begin_time) >= (timeout - speed):
             if lives <= 0:
                 print("die!")
+                radio.send("score:lose")
                 break
             else:
                 print("lose!")

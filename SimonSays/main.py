@@ -146,6 +146,7 @@ while True:
                 if round_count >= round_limit:
                     end = running_time()
                     display.fill(0)
+                    
                     display.text(str((end - start) / 1000) + "s", 5, 5, 1, scale=4) # second last argument is colour
                     display.show()
                     in_round = False

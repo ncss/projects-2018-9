@@ -40,7 +40,8 @@ while True:
                 colour = colors_list[current_colour_i]
                 # move to different color
             else:
-                board[:msg[1]] = colors[colour]
+                for i in range(int(msg[1])):
+                    board[i] = colors[colour]
                 board.show()
                 # set current color to score
                 # then display 

@@ -6,18 +6,16 @@ unit_name = ''
 unit_colour = '' #will be set to the rounds colour for this unit
 set_up = False
 
-RAINBOW = [(255,0,0),(255,140,0),(255,255,0),(0,255,162),(0,128,0),(0,0,255),(145,0,255),(75,0,130),(255,130,238),(0,0,0)]
+RAINBOW = [(128,0,0),(128,70,0),(128,128,0),(0,128,81),(0,64,0),(0,0,128),(75,0,128),(35,0,65),(128,65,170)]
 
-npix = neopixel.NeoPixel(pin0, 10)
+npix = neopixel.NeoPixel(pin0, 30)
 npix.clear()
 
-
-
-colours = { 'red' : (255,0,0),
-            'green' : (0,255,0),
-            'blue' : (0,0,255),
-            'yellow' : (255,255,0), 
-            'white' : (255,255,255) }
+colours = { 'red' : (128,0,0),
+            'green' : (0,128,0),
+            'blue' : (0,0,128),
+            'yellow' : (128,128,0), 
+            'white' : (128,128,128) }
 
 def light_all(colour):
     for pix in range(0, len(npix)):
@@ -53,7 +51,6 @@ def incorrect():
                 light_all('red')
                 
             wait_time = running_time() + flash_delay
-            
             
         #sad face
         if current_time > sad_wait_time:
@@ -107,9 +104,6 @@ def round_finished():
         if msg:
             unit_call, instruction, value = msg_split(msg)
             if instruction == 'new_game':
-                new_game = True
-                display.clear()
-            if instruction == 'new_round':
                 new_game = True
                 display.clear()
 

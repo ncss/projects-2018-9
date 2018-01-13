@@ -8,7 +8,7 @@ set_up = False
 
 RAINBOW = [(128,0,0),(128,70,0),(128,128,0),(0,128,81),(0,64,0),(0,0,128),(75,0,128),(35,0,65),(128,65,170)]
 
-npix = neopixel.NeoPixel(pin0, 30)
+npix = neopixel.NeoPixel(pin13, 30)
 npix.clear()
 
 colours = { 'red' : (128,0,0),
@@ -69,7 +69,7 @@ def incorrect():
                 new_game = True
                 display.clear()    
 
-def round_finished():
+def round_finished(colour):
     new_game = False
     n = 0
     wait_time = 0
@@ -103,9 +103,10 @@ def round_finished():
         msg = radio.receive()
         if msg:
             unit_call, instruction, value = msg_split(msg)
-            if instruction == 'new_game' or instruction == 'new_game':
+            if instruction == 'new_game' or instruction == 'new_round':
                 new_game = True
                 display.clear()
+                light_all(colour)
                 
 def button_press(unit_colour):
     press_delay = 400
@@ -162,7 +163,7 @@ while True:
                 incorrect()
             
             if instruction == 'round_finished':
-                round_finished()
+                round_finished(unit_colour)
                 
             if instruction == 'colour':
                 set_colour(value)

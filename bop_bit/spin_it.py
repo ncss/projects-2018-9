@@ -3,7 +3,6 @@
 
 from microbit import *
 import radio
-display.show(Image.ALL_CLOCKS, loop=True, delay=500, wait=False)
 
 class Client:
     """Sends trigger messages to a server on the same channel"""
@@ -38,7 +37,6 @@ while True:
     cur_value = pin0.read_analog()
     if debug: print(prev_value, cur_value)
     if abs(cur_value-prev_value) >= 100:
-        display.show(Image.HAPPY, delay=400, wait=False, clear=True)
         client.send_trigger()
         if debug: print('yes')
     cur_value = prev_value

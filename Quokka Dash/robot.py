@@ -55,7 +55,7 @@ class Robot:
             pinL.write_analog(abs(speed) * 1023)
 
 class Controller:
-    MAX_SPEED = 0.6
+    MAX_SPEED = 1
     DELAY = 1000
     
     def __init__(self, robot):
@@ -98,7 +98,7 @@ thing = Robot([pin16, pin0], [pin12, pin8])
 person = Controller(thing)
 
 while True:
-    
+    thing.motors(0, 0)
     radio.config(channel = start_channel)
     
     while True:

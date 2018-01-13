@@ -25,6 +25,7 @@ while True:
             display.show(Image.HAPPY)
         
         prev = curr
+        radio.on()
         
     else:
         msg = radio.receive()

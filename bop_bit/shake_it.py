@@ -3,6 +3,8 @@
 from microbit import *
 import radio
 
+display.show(Image.ALL_CLOCKS, loop=True, delay=500)
+
 class Client:
 	"""Sends trigger messages to a server on the same channel"""
 	def __init__(self, chan, name):
@@ -27,11 +29,10 @@ class Client:
 
 client = Client(69, "shake_it")
 
-while True:
-    gesture = accelerometer.was_gesture("shake")
-    if gesture:
-        display.show(Image.HAPPY)
-        client.send_trigger()
-        #print('YAY')
-    else:
-        display.show(Image.SAD)
+def is_triggered():
+    while True:
+        gesture = accelerometer.was_gesture("shake")
+        if gesture:
+            display.show(Image.HAPPY)
+            client.send_trigger()
+            #print('YAY')

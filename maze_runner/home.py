@@ -29,18 +29,24 @@ while True:
         #currently_held = p[2]
         if p[0]:
             if count == num:
-                radio.send("INPT_BTBT-forwards")
-                print("forward")
+                for i in range(3):
+                    radio.send("INPT_BTBT-forwards")
+                    sleep(50)
+                #print("forward")
             elif count > num:
-                radio.send("INPT_BTBT-right")
-                print("right")
+                for i in range(3):
+                    radio.send("INPT_BTBT-right")
+                    sleep(50)
+                #print("right")
             elif count < num:
-                radio.send("INPT_BTBT-left")
-                print("left")
-                
-            sleep(50)
-            radio.send("INPT_RNDM-1")
-            print("done")
+                for i in range(3): 
+                    radio.send("INPT_BTBT-left")
+                    sleep(50)
+                #print("left")
+            for i in range(3):
+                radio.send("INPT_RNDM-1")
+                sleep(50)
+            #print("done")
             display.scroll("SENT")
             num = 0
             count = 0
@@ -54,4 +60,3 @@ while True:
         if msg and msg.startswith("RNDM_INPT-"):
             print(msg)
             num = int(msg[10])
-            

@@ -50,3 +50,4 @@ while True:
         if msg_command in move_commands:
             radio_move(msg_command)
         #radio_move(radio_msg[10:])
+    radio.on()

@@ -1,8 +1,11 @@
 from microbit import *
 import radio 
 
+start_channel = 62
+game_channel = 72
+
 radio.on()
-radio.config(channel=72)
+radio.config(channel=start_channel)
 
 def amap(x, in_min, in_max, out_min, out_max):
     return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min
@@ -86,5 +89,11 @@ class Controller:
 thing = Robot([pin16, pin0], [pin12, pin8])
 person = Controller(thing)
 
+while True:
+    msg = radio.receieve()
+    if msg == 'start':
+        radio.config(channel=game_channel)
+        break
+        
 while True:
     person.update()

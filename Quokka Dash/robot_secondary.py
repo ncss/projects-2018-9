@@ -7,6 +7,9 @@ left_update = 0
 right_update = 0
 led_update = 0
 
+start_channel = 62
+game_channel = 72
+
 MAX_SPEED = 0.6
 DELAY = 1000
     
@@ -15,7 +18,7 @@ led_array = [[0 for x in range(5)] for y in range(5)]
 last_points = [(2, 1)] * 5
 
 radio.on()
-radio.config(channel=72)
+radio.config(channel=start_channel)
 
 def amap(x, in_min, in_max, out_min, out_max):
     return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min
@@ -55,10 +58,19 @@ def draw_line(start, end, brightness=9):
         led_array[constrain(int(y + 0.5), 0, 4)][constrain(int(x + 0.5), 0, 4)] = brightness
     
 while True:
+    msg = radio.receieve()
+    if msg == 'start':
+        radio.config(channel=game_channel)
+        break
+        
+while True:
     msg = radio.receive()
     if msg:
-        wheel, speed = msg.split(':')
-        speed = min(int(speed), 15)
+        try:
+            wheel, speed = msg.split(':')
+        except:
+            continue
+        speed = int(speed)
         if wheel == 'L':
             left_speed = amap(speed, 0, 100, 0, MAX_SPEED)
             if speed > 0:
@@ -68,16 +80,29 @@ while True:
             right_speed = amap(speed, 0, 100, 0, MAX_SPEED)
             if speed > 0:
                 right_update = running_time()    
-                    
+        print(left_speed, right_speed)
     if running_time() - left_update > DELAY:
         left_speed = -0.2
+        print(left_speed, right_speed)
     if running_time() - right_update > DELAY:
         right_speed = -0.2
+        print(left_speed, right_speed)
     
     # Update display
-    if running_time() - led_update > 100:
+    if running_time() - led_update > 50:
         
-        index = int(amap(left_speed - right_speed, -1, 1, 0, len(led_edges)) + 0.5)
+        
+        if left_speed < 0 and right_speed < 0:
+            led_update = running_time()
+            display.show(Image.ARROW_S)
+            continue
+        if left_speed < 0:
+            index = 0
+        elif right_speed < 0:
+            index = -1
+        else:
+            index = int(amap(left_speed - right_speed, -1, 1, 0, len(led_edges)))
+            
         last_points.append(led_edges[index])
         last_points.pop(0)
         

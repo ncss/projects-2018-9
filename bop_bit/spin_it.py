@@ -39,4 +39,4 @@ while True:
     if abs(cur_value-prev_value) >= 100:
         client.send_trigger()
         if debug: print('yes')
-    cur_value = prev_value
+    prev_value = cur_value

@@ -20,17 +20,17 @@ tm = drivers.tm1637.TM1637(clk=Pin('X9'), dio=Pin('X10'))
 
 while True:
     #timer
-    TIMER_LENGTH_SECS = 45
+    #TIMER_LENGTH_SECS = 45
     end_button = False
     while True:
         if groves.d.pin0.read_digital():
             end_button = False
             radio.send('start')
             start_time = running_time()
-            end_time = start_time + TIMER_LENGTH_SECS*1000
-            while running_time() < end_time and end_button == False:
-                remaining_time = (end_time - running_time())//1000
-                tm.numbers(*divmod(remaining_time, 60))
+            #end_time = start_time + TIMER_LENGTH_SECS*1000
+            while end_button == False:
+                #remaining_time = (end_time - running_time())//1000
+                tm.numbers(*divmod(((running_time()-start_time)//1000), 60))
                 if groves.c.pin0.read_digital() or radio.receive() == "stop":
                     end_button = True
     # * means unpack tuple

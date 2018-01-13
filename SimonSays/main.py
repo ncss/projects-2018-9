@@ -18,7 +18,7 @@ rgb_colors = {"red": (255,0,0),
 }
 
 
-in_round = False
+
 def setup():
     unit_name = "unit%d" % len(units) #%d means that "%d" will be replaced with the length of units (the "d" is the type)
     
@@ -82,15 +82,32 @@ def round_finished():
 
 def reset_game():
     print("Should reset")
+    progress = 0
+    start = 0
+    end = 0
     pass
     
 progress = 0
 start = 0
 end = 0
+round_count = 0
+in_game = False
+in_round = False
+
 while True:
-    
-    if not in_round and start_button.was_pressed():
+    pressed = start_button.was_pressed()
+    if not in_game and pressed:
         new_game()
+        
+    if not in_game:
+        display.fill(0)
+        display.text(str(len(units)), 5, 5, 1, scale=8) # second last argument is colour
+        display.show()
+        sleep(100)
+
+    if not in_round and pressed:
+        print("HERE")
+        round_count += 1
         sequence = generate_sequence(3)
         print(sequence)
         
@@ -98,19 +115,14 @@ while True:
         start = running_time()
         display.fill(0)
         display.show()
+        in_game = True
         in_round = True
-    if not in_round:
-        display.fill(0)
-        display.text(str(len(units)), 5, 5, 1, scale=8) # second last argument is colour
-        display.show()
-        sleep(100)
-    
     receive = radio.receive()
     if not receive:
         continue
     receive = receive.split(":")
     
-    if receive[0] == 'requestname' and not in_round:
+    if receive[0] == 'requestname' and not in_game:
         setup()
         continue
     #PROTOCOL STARTS
@@ -130,12 +142,16 @@ while True:
             print("Progress %d" % progress)
             print(len(sequence))
             if progress == len(sequence):
-                print("sending")
                 radio.send("all:round_finished:1")
-                end = running_time()
-                display.fill(0)
-                display.text(str(end - start), 5, 5, 1, scale=4) # second last argument is colour
-                display.show()
+                if round_count >= 5:
+                    end = running_time()
+                    display.fill(0)
+                    display.text(str((end - start) / 1000) + "s", 5, 5, 1, scale=4) # second last argument is colour
+                    display.show()
+                    in_round = False
+                    in_game = False
+                else:
+                    in_round = False
         else:
             print("Pressed %s, should've pressed %s" %(unit, sequence[progress]))
             radio.send("all:incorrect:1")

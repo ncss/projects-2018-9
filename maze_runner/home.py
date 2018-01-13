@@ -41,6 +41,7 @@ while True:
             sleep(50)
             radio.send("INPT_RNDM-1")
             print("done")
+            display.scroll("SENT")
             num = 0
             count = 0
         elif button_b.was_pressed():

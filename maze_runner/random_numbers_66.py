@@ -7,7 +7,7 @@ sit = [3,4,2,3,3,1,3,2,3,4,1,3,1,2,1,2,3,3,2,3,2,5,5,5]
 ind = 1 
 
 radio.on()
-radio.config(channel=71)
+radio.config(channel=66)
 
 situp = sit[0]
 radio.send("RNDM_SNSR-" + str(situp))

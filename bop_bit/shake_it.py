@@ -2,8 +2,7 @@
 # https://trello.com/c/5Buph40r
 from microbit import *
 import radio
-
-display.show(Image.ALL_CLOCKS, loop=True, delay=500)
+display.show(Image.ALL_CLOCKS, loop=True, delay=100, wait=False)
 
 class Client:
 	"""Sends trigger messages to a server on the same channel"""
@@ -30,9 +29,10 @@ class Client:
 client = Client(69, "shake_it")
 
 def is_triggered():
-    while True:
-        gesture = accelerometer.was_gesture("shake")
-        if gesture:
-            display.show(Image.HAPPY)
-            client.send_trigger()
-            #print('YAY')
+    gesture = accelerometer.was_gesture("shake")
+    if gesture:
+        display.show(Image.HAPPY)
+        client.send_trigger()
+        #print('YAY')
+    else:
+        display.show(Image.SAD)

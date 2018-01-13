@@ -41,6 +41,7 @@ def is_triggered():
     if debug: print(prev_value, cur_value)
     if abs(cur_value-prev_value) >= 100:
         cur_value = prev_value
+        display.show(Image.HAPPY, delay=400, wait=False, clear=True)
         return True
     else:
         return False

@@ -1,5 +1,7 @@
 from microbit import *
-
+import radio
+radio.on()
+radio.config(channel=62)
 # assign colour names to each of the pins
 red = pin13
 green = pin0
@@ -13,7 +15,13 @@ num_of_colours = 1024
     #decreasing time fraction
 u = 0
 d = 0
+listen = True
 start = running_time()
+while listen:
+    rado = radio.receive()
+    if rado == "start":
+       listen = False
+       
 for up, down in zip(range(num_of_colours), range(num_of_colours-1, 0, -1)):
     green.write_analog(down)
     red.write_analog(up)

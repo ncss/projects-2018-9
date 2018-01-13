@@ -21,7 +21,7 @@ while True:
         display.show(str(situps_left))
         
         if not situps_left:
-            for in range(3):
+            for i in range(3):
                 radio.send("SNSR_RNDM-1")
                 sleep(50)
             display.show(Image.HAPPY)

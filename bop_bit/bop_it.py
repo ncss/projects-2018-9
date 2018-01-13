@@ -56,7 +56,7 @@ radio.send("score:new_game")
 
 while True:       
     module_current = random.choice(list(server.modules.keys()))
-    print(module_current)
+    radio.send(module_current + ":is_module") # e.g. "bop_it:is_module"
     begin_time = running_time()
     while True:
         if (running_time() - begin_time) >= (timeout - speed):

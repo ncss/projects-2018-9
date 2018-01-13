@@ -40,7 +40,7 @@ def radio_move(direct):
     stop_time = running_time() + move_time
     
     while (running_time() <= stop_time) and (pin11.read_digital() or pin5.read_digital()):
-        continue
+        pass
     robot_stop()
     
 while True:
@@ -50,4 +50,7 @@ while True:
         if msg_command in move_commands:
             radio_move(msg_command)
         #radio_move(radio_msg[10:])
+    else:
+        sleep(50)
+        continue
     radio.on()

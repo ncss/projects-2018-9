@@ -14,7 +14,8 @@ npix.clear()
 colours = { 'red' : (255,0,0),
             'green' : (0,255,0),
             'blue' : (0,0,255),
-            'yellow' : (255,255,0) }
+            'yellow' : (255,255,0), 
+            'white' : (255,255,255) }
 
 def light_all(colour):
     for pix in range(0, len(npix)):
@@ -42,13 +43,10 @@ def incorrect():
         current_time = running_time()
         #flashing lights
         if current_time > wait_time:
-            print(0)
             if lit:
-                print(1)
                 npix.clear()
                 lit = False
             else:
-                print(2)
                 lit = True
                 light_all('red')
                 
@@ -128,6 +126,7 @@ radio.on()
 radio.config(channel=73)
 #to get name from center unit
 radio.send("requestname")
+light_all('white')
 npix.clear()
 display.clear()
 
@@ -148,23 +147,22 @@ while set_up == False:
 while True:
     msg = radio.receive() #EXAMPLE: unit1:colour:red
     if msg:
+        print(msg)
         unit_call, instruction, value = msg_split(msg)
         #print(unit_call, instruction, value)
         
-        if unit_call == unit_name:
+        if unit_call == unit_name or unit_call == 'all':
             if instruction == 'incorrect':
                 incorrect()
             
             if instruction == 'round_finished':
                 round_finished()
                 
-            #if instruction == 'new_round':    
-            
             if instruction == 'colour':
                 set_colour(value)
                 unit_colour = value     #sets global value to colour
             
-    if button_a.was_pressed():          #sends signal to centre
+    if button_a.was_pressed() or button_b.was_pressed():          #sends signal to centre
         button_press(unit_colour) 
 
 #PROTOCOL    

@@ -3,6 +3,7 @@ import radio
 
 radio.on()
 radio.config(channel=72)
+
 def amap(x, in_min, in_max, out_min, out_max):
     return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min
 
@@ -57,9 +58,12 @@ class Controller:
     def update(self):
         msg = radio.receive()
         if msg:
-            print(msg)
-            wheel, speed = msg.split(':')
-            speed = min(int(speed), 15)
+            # print(msg)
+            try:
+                wheel, speed = msg.split(':')
+            except:
+                return
+            speed = int(speed)
             if wheel == 'L':
                 self.left_speed = amap(speed, 0, 100, 0, Controller.MAX_SPEED)
                 if speed > 0:
@@ -72,10 +76,10 @@ class Controller:
                     self.right_update = running_time()
                     
         if running_time() - self.left_update > Controller.DELAY:
-            self.left_speed = -0.2
+            self.left_speed = -0.3
         if running_time() - self.right_update > Controller.DELAY:
-            self.right_speed = -0.2
-            
+            self.right_speed = -0.3
+        print(self.left_speed, self.right_speed)
         self.robot.motors(self.left_speed, self.right_speed)
         
         

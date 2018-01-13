@@ -13,18 +13,23 @@ def robot_move(r_value, l_value, slp_time):
     pin8.write_digital(0)
     
 def radio_move(direct):
-    if move_toggle:
-        if direct == 'forwards':
-            robot_move(1023, 1023, 2000)
-        elif direct == 'left':
-            robot_move(1023, 0, 230)
-        elif direct == 'right':
-            robot_move(0, 1023, 230)
+    if direct == 'forwards':
+        display.show(Image.ARROW_N)
+        robot_move(1023, 1023, 2000)
+        display.clear()
+    elif direct == 'left':
+        display.show(Image.ARROW_W)
+        robot_move(1023, 0, 235)
+        display.clear()
+    elif direct == 'right':
+        display.show(Image.ARROW_E)
+        robot_move(0, 1023, 235)
+        display.clear()
 
 move_commands = ['forwards', 'left', 'right']
-move_toggle = 0
 radio.on()
-radio.config(channel=71, group=16)
+radio.config(channel=71)
+move_for_steps = 2
 
 while True:
     radio_msg = radio.receive()
@@ -32,6 +37,3 @@ while True:
         msg_command = radio_msg.split('-')[1]
         if msg_command in move_commands:
             radio_move(msg_command)
-    
-    if button_a.was_pressed():
-        move_toggle = not move_toggle

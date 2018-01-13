@@ -63,6 +63,7 @@ while True:
         if (running_time() - begin_time) >= (timeout - speed):
             if lives <= 0:
                 print("die!")
+                radio.send("score:lose")
                 break
             else:
                 print("lose!")

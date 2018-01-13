@@ -102,7 +102,7 @@ while True:
     radio.config(channel = start_channel)
     
     while True:
-        msg = radio.receieve()
+        msg = radio.receive()
         if msg == 'start':
             radio.config(channel=game_channel)
             break

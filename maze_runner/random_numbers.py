@@ -3,7 +3,7 @@ import radio
 import random
 import music
 # RNDM
-sit = [3,4,2,5,5,1,5,2,3,6,1,3,1,2,4,4,3,5,2,3,2,5,5,5]
+sit = [3,4,2,3,3,1,3,2,3,4,1,3,1,2,1,2,3,3,2,3,2,5,5,5]
 ind = 1 
 
 radio.on()

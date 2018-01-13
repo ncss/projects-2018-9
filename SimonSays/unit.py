@@ -6,18 +6,16 @@ unit_name = ''
 unit_colour = '' #will be set to the rounds colour for this unit
 set_up = False
 
-RAINBOW = [(255,0,0),(255,140,0),(255,255,0),(0,255,162),(0,128,0),(0,0,255),(145,0,255),(75,0,130),(255,130,238),(0,0,0)]
+RAINBOW = [(128,0,0),(128,70,0),(128,128,0),(0,128,81),(0,64,0),(0,0,128),(75,0,128),(35,0,65),(128,65,170)]
 
-npix = neopixel.NeoPixel(pin0, 10)
+npix = neopixel.NeoPixel(pin0, 30)
 npix.clear()
 
-
-
-colours = { 'red' : (255,0,0),
-            'green' : (0,255,0),
-            'blue' : (0,0,255),
-            'yellow' : (255,255,0), 
-            'white' : (255,255,255) }
+colours = { 'red' : (128,0,0),
+            'green' : (0,128,0),
+            'blue' : (0,0,128),
+            'yellow' : (128,128,0), 
+            'white' : (128,128,128) }
 
 def light_all(colour):
     for pix in range(0, len(npix)):
@@ -105,13 +103,10 @@ def round_finished():
         msg = radio.receive()
         if msg:
             unit_call, instruction, value = msg_split(msg)
-            if instruction == 'new_game':
+            if instruction == 'new_game' or instruction == 'new_game':
                 new_game = True
                 display.clear()
-            if instruction == 'new_round':
-                new_game = True
-                display.clear()
-
+                
 def button_press(unit_colour):
     press_delay = 400
     radio.send(unit_name + ':pressed:1')   #check
@@ -173,7 +168,7 @@ while True:
                 set_colour(value)
                 unit_colour = value     #sets global value to colour
             
-    if button_a.was_pressed() or button_b.was_pressed():          #sends signal to centre
+    if pin1.read_digital():          #sends signal to centre
         button_press(unit_colour) 
 
 #PROTOCOL    

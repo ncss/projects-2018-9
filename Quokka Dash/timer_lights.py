@@ -17,27 +17,34 @@ u = 0
 d = 0
 listen = True
 start = running_time()
-while listen:
-    rado = radio.receive()
-    if rado == "start":
-       listen = False
-       
-for up, down in zip(range(num_of_colours), range(num_of_colours-1, 0, -1)):
-    green.write_analog(down)
-    red.write_analog(up)
-    u = up
-    d = down
-    sleep(time_ms/num_of_colours)
-print("mark")
-x = 1000
-while x > 5:
+while True:
+    while listen:
+        rado = radio.receive()
+        if rado == "start":
+           listen = False
+           
+    for up, down in zip(range(num_of_colours), range(num_of_colours-1, 0, -1)):
+        green.write_analog(down)
+        red.write_analog(up)
+        u = up
+        d = down
+        sleep(time_ms/num_of_colours)
+        rado = radio.receive()
+        if rado == "done":
+            break
+            finish = True:
+    print("mark")
+    x = 1000
+    if finish != True:
+        while x > 5:
+            red.write_analog(0)
+            print(x)
+            sleep(x)
+            red.write_analog(1023)
+            sleep(x)
+            x = x//1.5
+    finish = False
+    end = running_time()
     red.write_analog(0)
-    print(x)
-    sleep(x)
-    red.write_analog(1023)
-    sleep(x)
-    x = x//1.5
-end = running_time()
-red.write_analog(0)
-green.write_analog(0)
-print((end-start)//1000)
+    green.write_analog(0)
+    print((end-start)//1000)

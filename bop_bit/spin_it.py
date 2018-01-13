@@ -3,7 +3,7 @@
 
 from microbit import *
 import radio
-display.show(Image.ALL_CLOCKS, loop=True, delay=500)
+display.show(Image.ALL_CLOCKS, loop=True, delay=500, wait=False)
 
 class Client:
     """Sends trigger messages to a server on the same channel"""

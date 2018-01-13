@@ -5,12 +5,12 @@ radio.config(channel=62)
 
 while True:
     if pin1.read_digital():
-        display.scroll('!Keep Going!')
         radio.send('Half')
+        display.scroll('!Keep Going!')
     elif pin0.read_digital():
-        display.show(Image.HAPPY)
         radio.send('Done')
         radio.config(channel=72)
         radio.send('Stop')
+        display.show(Image.HAPPY)
     else:
         display.show(Image.SAD)

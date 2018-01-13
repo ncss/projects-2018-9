@@ -4,8 +4,15 @@ import radio
 start_channel = 62
 game_channel = 72
 
+FLASH = [
+  Image('99999:99999:99999:99999:99999'),
+  Image('77777:77777:77777:77777:77777'),
+  Image('55555:55555:55555:55555:55555'),
+  Image('33333:33333:33333:33333:33333'),
+  Image('11111:11111:11111:11111:11111')
+]
+
 radio.on()
-radio.config(channel=start_channel)
 
 def amap(x, in_min, in_max, out_min, out_max):
     return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min
@@ -61,7 +68,8 @@ class Controller:
     def update(self):
         msg = radio.receive()
         if msg:
-            # print(msg)
+            if msg == 'stop':
+                return True
             try:
                 wheel, speed = msg.split(':')
             except:
@@ -90,10 +98,23 @@ thing = Robot([pin16, pin0], [pin12, pin8])
 person = Controller(thing)
 
 while True:
-    msg = radio.receieve()
-    if msg == 'start':
-        radio.config(channel=game_channel)
-        break
-        
-while True:
-    person.update()
+    
+    radio.config(channel = start_channel)
+    
+    while True:
+        msg = radio.receieve()
+        if msg == 'start':
+            radio.config(channel=game_channel)
+            break
+
+    for i in range(5):
+        display.show(FLASH[i])
+        sleep(100)
+    display.clear()
+    
+    left_update = running_time()
+    right_update = running_time()
+    
+    while True:
+        if person.update():
+            break

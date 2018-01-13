@@ -13,6 +13,6 @@ SPEED = 20
 while True:
     sound_to_play = radio.receive()
     if sound_to_play:
-        sound_to_play.split(':')
-        if sound_to_play[1] == 'is_module':
-            speech.say(sounds[sound_to_play[0]]
+        module, is_module = sound_to_play.split(':')
+        if is_module == 'is_module' and module in sounds:
+            speech.say(sounds[module], speed = 50)

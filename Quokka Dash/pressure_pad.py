@@ -13,11 +13,13 @@ while True:
         mid_touched = True
 
     elif pin0.read_digital() and mid_touched:
+        radio.config(channel=62)
         radio.send('stop')
         radio.config(channel=72)
         radio.send('stop')
         display.show(Image.HAPPY)
-        sleep(500)
+        sleep(5000)
+        display.scroll("You Won!")
 
         # Restart program
         mid_touched = False

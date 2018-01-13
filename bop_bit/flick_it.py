@@ -1,6 +1,3 @@
-# Spin it
-# https://trello.com/c/uUocRhe4
-
 from microbit import *
 import radio
 
@@ -26,20 +23,18 @@ class Client:
         message += "alive"
         #print("Sent: " + message)
 
-client = Client(69, "spin_it")
+client = Client(69, "pull_it")
 
 debug = False
 
-cur_value = 0;
-prev_value = 0;
-
 def is_triggered():
-    prev_value = pin0.read_analog()
-    sleep(200)
-    cur_value = pin0.read_analog()
-    if debug: print(prev_value, cur_value)
-    if abs(cur_value-prev_value) >= 100:
-        cur_value = prev_value
+    prev_val = pin0.read_analog()
+    sleep(50)
+    cur_val = pin0.read_analog()
+
+    if debug:
+        print(prev_val-cur_val)
+    if prev_val != cur_val:
         return True
     else:
         return False
@@ -47,4 +42,6 @@ def is_triggered():
 while True:
     if is_triggered():
         client.send_trigger()
-        if debug: print('yes')
+        if debug:
+            print('yes')
+    sleep(200)

@@ -60,7 +60,14 @@ def incorrect():
             else:
                 display.show(Image.SAD.shift_up(1))
                 sad_shift = True
-            sad_wait_time = running_time() + sad_delay    
+            sad_wait_time = running_time() + sad_delay
+        
+        msg = radio.receive()
+        if msg:
+            unit_call, instruction, value = msg_split(msg)
+            if instruction == 'new_game':
+                new_game = True
+                display.clear()    
 
 def round_finished():
     new_game = False
@@ -147,9 +154,8 @@ while set_up == False:
 while True:
     msg = radio.receive() #EXAMPLE: unit1:colour:red
     if msg:
-        print(msg)
         unit_call, instruction, value = msg_split(msg)
-        #print(unit_call, instruction, value)
+        print(unit_call, instruction, value)
         
         if unit_call == unit_name or unit_call == 'all':
             if instruction == 'incorrect':
@@ -167,4 +173,3 @@ while True:
 
 #PROTOCOL    
 #unit_call:instruction:value
-

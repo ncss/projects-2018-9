@@ -19,7 +19,7 @@ while True:
     if msg:
         print(msg)
         if msg == "SNSR_RNDM-1":
-            music.play(music.ODE, wait=False)
+            music.play(music.RINGTONE, wait=False)
             control = random.randint(1,8)
             radio.send("RNDM_INPT-" + str(control))
             display.show(str(control))

@@ -11,22 +11,40 @@ colours = ["red", "green", "blue", "yellow"] #Interpreted by clients
 units = [] #Units start as empty
 unit_colours = {}
 
+rgb_colors = {"red": (255,0,0),
+"green": (0,255,0),
+"blue": (0,0,255),
+"yellow": (255,255,0)
+}
+
 
 in_round = False
 def setup():
-    print("Setting up device")
     unit_name = "unit%d" % len(units) #%d means that "%d" will be replaced with the length of units (the "d" is the type)
-    print(unit_name)
     
     radio.send("%s:setup:1" % unit_name)
     units.append(unit_name)
 
 def flash_sequence(sequence):
+    print("START")
+    print(sequence)
     for i in sequence:
-        #colour = (unit_colours[i])
-        #flashing code
-        #sleep(500)
-        pass
+        colour = unit_colours[i]
+        print(i)
+        print(colour)
+        neopixels.set_pixel(1, 0, 255, 0)
+        for i in range(8):
+            r = rgb_colors[colour][0]
+            g = rgb_colors[colour][1]
+            b = rgb_colors[colour][2]
+            neopixels.set_pixel(i, r, g, b)
+        neopixels.show()
+        sleep(1000)
+        neopixels.clear()
+        neopixels.show()
+        sleep(250)
+  
+    print("END")
 def shuffle(sequence):
     
     for i in range(len(sequence) - 1, 0, -1):
@@ -43,11 +61,14 @@ def new_game():
     colour_list = shuffle(colours)
     
     for index, element in  enumerate(units): #Send a colour to each unit
-    
+        print("%s:colour:%s" % (element, colour_list[index]))
         radio.send("%s:colour:%s" % (element, colour_list[index])) #"unit3:color:blue"
         unit_colours[element] = colour_list[index]
     
     print(unit_colours)
+
+def new_round():
+    pass
 
 def generate_sequence(sequence_length):
     sequence = []
@@ -60,20 +81,29 @@ def round_finished():
 
 
 def reset_game():
-    print("Delete everything")
-    reset()
+    print("Should reset")
+    pass
+    
 progress = 0
-sequence = []
-
+start = 0
+end = 0
 while True:
     
     if not in_round and start_button.was_pressed():
         new_game()
         sequence = generate_sequence(3)
+        print(sequence)
+        
+        flash_sequence(sequence)
+        start = running_time()
+        display.fill(0)
+        display.show()
         in_round = True
-    display.fill(0)
-    display.large_text(str(len(units)), 5, 5, scale=8)
-    display.show()
+    if not in_round:
+        display.fill(0)
+        display.text(str(len(units)), 5, 5, 1, scale=8) # second last argument is colour
+        display.show()
+        sleep(100)
     
     receive = radio.receive()
     if not receive:
@@ -91,16 +121,24 @@ while True:
     instruction = receive[1]
     data = receive[2]
     
-    if instruction == "clicked" and int(data):
+    if instruction == "pressed" and int(data):
+        print("here")
         if unit == sequence[progress]:
-            #correct
+            print("Corecct")
             progress += 1
             radio.send("%s:correct:1" % unit)
+            print("Progress %d" % progress)
+            print(len(sequence))
             if progress == len(sequence):
+                print("sending")
                 radio.send("all:round_finished:1")
+                end = running_time()
+                display.fill(0)
+                display.text(str(end - start), 5, 5, 1, scale=4) # second last argument is colour
+                display.show()
         else:
-            print("ughhhh")
-            radio.send("%s:correct:0" % unit)
+            print("Pressed %s, should've pressed %s" %(unit, sequence[progress]))
+            radio.send("all:incorrect:1")
             reset_game()
             #oh no it's wrong
     #unit1:pressed:1

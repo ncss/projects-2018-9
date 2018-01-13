@@ -49,4 +49,5 @@ def is_triggered():
 while True:
     if is_triggered():
         client.send_trigger()
+        sleep(200)
         if debug: print('yes')

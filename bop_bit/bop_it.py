@@ -9,7 +9,7 @@ class Server:
     """docstring for Server"""
     def __init__(self, chan):
         self.channel = chan
-        self.modules = {"bop_it": False, "twist_it": False}
+        self.modules = {"bop_it": False}
         radio.on()
         radio.config(channel = self.channel)
 
@@ -46,26 +46,29 @@ def is_triggered(prev_state):
 
 """ GAME STUFF """
 
+sleep(1000)
 score = 0
 lives = 3
-timeout = 5000
+timeout = 3 * 1000
 speed = 0
 trigger_last = False
+radio.send("score:new_game")
 
 while True:
-    module_current = random.choice(list(server.modules.keys()))
-    print(module_current)
+    module_current = random.choice(list(server.modules.keys())) # will be bop_it on first run
+    radio.send(module_current + ":is_module") # e.g. "bop_it:is_module"
     begin_time = running_time()
     while True:
+        server.update()
         if (running_time() - begin_time) >= (timeout - speed):
             if lives <= 0:
                 print("die!")
-                while True:
-                    pass
+                radio.send("score:lose")
+                break
             else:
                 print("lose!")
                 lives -= 1
-                break
+            break
         else:
             trigger = pin0.read_digital()
             if trigger and not trigger_last:
@@ -77,5 +80,6 @@ while True:
                 print("win!")
                 score += 1
                 speed += 1
+                radio.send("score:" + str(score))
                 break
 

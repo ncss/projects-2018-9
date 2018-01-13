@@ -5,6 +5,7 @@ radio.config(channel=62)
 
 while True:
     if pin1.read_digital():
+        radio.config(channel=62)
         radio.send('mid')
         display.scroll('!Keep Going!')
     elif pin0.read_digital():

@@ -11,6 +11,8 @@ RAINBOW = [(255,0,0),(255,140,0),(255,255,0),(0,255,162),(0,128,0),(0,0,255),(14
 npix = neopixel.NeoPixel(pin0, 10)
 npix.clear()
 
+
+
 colours = { 'red' : (255,0,0),
             'green' : (0,255,0),
             'blue' : (0,0,255),
@@ -104,6 +106,9 @@ def round_finished():
         if msg:
             unit_call, instruction, value = msg_split(msg)
             if instruction == 'new_game':
+                new_game = True
+                display.clear()
+            if instruction == 'new_round':
                 new_game = True
                 display.clear()
 

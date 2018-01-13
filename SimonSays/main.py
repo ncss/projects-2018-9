@@ -67,8 +67,6 @@ def new_game():
     
     print(unit_colours)
 
-def new_round():
-    pass
 
 def generate_sequence(sequence_length):
     sequence = []
@@ -93,6 +91,7 @@ end = 0
 round_count = 0
 in_game = False
 in_round = False
+round_limit = 3
 
 while True:
     pressed = start_button.was_pressed()
@@ -106,6 +105,7 @@ while True:
         sleep(100)
 
     if not in_round and pressed:
+        radio.send("all:new_round:1")
         print("HERE")
         round_count += 1
         sequence = generate_sequence(3)
@@ -143,7 +143,7 @@ while True:
             print(len(sequence))
             if progress == len(sequence):
                 radio.send("all:round_finished:1")
-                if round_count >= 5:
+                if round_count >= round_limit:
                     end = running_time()
                     display.fill(0)
                     display.text(str((end - start) / 1000) + "s", 5, 5, 1, scale=4) # second last argument is colour

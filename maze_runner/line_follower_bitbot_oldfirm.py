@@ -14,7 +14,9 @@ def robot_move(r_value, l_value, slp_time):
 
 def radio_move(direct):
     if direct == 'forwards':
-        robot_move(1023, 1023, 2000)
+        for i in range(move_for_steps):
+            if light_sens_val_1 and light_sens_val_2:
+                robot_move(1023, 1023, 100)
     elif direct == 'left':
         robot_move(1023, 0, 235)
     elif direct == 'right':
@@ -23,11 +25,14 @@ def radio_move(direct):
 move_commands = ['forwards', 'left', 'right']
 radio.on()
 radio.config(channel=71)
-move_for_steps = 2
-toggle_on = False #variable to detect white line and stop accordingly
+move_for_steps = 10
 
 while True:
+    light_sens_val_1 = pin11.read_digital()
+    light_sens_val_2 = pin5.read_digital()
+    
     radio_msg = radio.receive()
+    
     if radio_msg and radio_msg.startswith("INPT_BTBT-"):
         msg_command = radio_msg.split('-')[1]
         if msg_command in move_commands:

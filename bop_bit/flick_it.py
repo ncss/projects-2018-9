@@ -25,7 +25,7 @@ class Client:
 
 client = Client(69, "pull_it")
 
-debug = True
+debug = False
 
 def is_triggered():
     prev_val = pin0.read_analog()

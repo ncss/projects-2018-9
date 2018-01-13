@@ -103,10 +103,10 @@ def round_finished():
         msg = radio.receive()
         if msg:
             unit_call, instruction, value = msg_split(msg)
-            if instruction == 'new_game':
+            if instruction == 'new_game' or instruction == 'new_game':
                 new_game = True
                 display.clear()
-
+                
 def button_press(unit_colour):
     press_delay = 400
     radio.send(unit_name + ':pressed:1')   #check
@@ -168,7 +168,7 @@ while True:
                 set_colour(value)
                 unit_colour = value     #sets global value to colour
             
-    if button_a.was_pressed() or button_b.was_pressed():          #sends signal to centre
+    if pin1.read_digital():          #sends signal to centre
         button_press(unit_colour) 
 
 #PROTOCOL    

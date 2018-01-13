@@ -1,6 +1,5 @@
 from microbit import *
 import radio
-
 display.show(Image.ALL_CLOCKS, loop=True, delay=500, wait=False)
 
 class Client:
@@ -33,10 +32,11 @@ def is_triggered():
     prev_val = pin0.read_analog()
     sleep(50)
     cur_val = pin0.read_analog()
+    difference = prev_val-cur_val
 
     if debug:
-        print(prev_val-cur_val)
-    if prev_val != cur_val:
+        print(difference)
+    if prev_val != cur_val and abs(difference)!= 1 :
         return True
     else:
         return False
@@ -44,6 +44,7 @@ def is_triggered():
 while True:
     if is_triggered():
         client.send_trigger()
+        display.show(Image.HAPPY, delay=400, wait=False, clear=True)
         if debug:
             print('yes')
     sleep(200)

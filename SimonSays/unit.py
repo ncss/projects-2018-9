@@ -14,7 +14,8 @@ npix.clear()
 colours = { 'red' : (255,0,0),
             'green' : (0,255,0),
             'blue' : (0,0,255),
-            'yellow' : (255,255,0) }
+            'yellow' : (255,255,0), 
+            'white' : (255,255,255) }
 
 def light_all(colour):
     for pix in range(0, len(npix)):
@@ -30,29 +31,75 @@ def clear_colour():
     npix.clear()
     
 def incorrect():
-    flash_delay = 300
+    flash_delay = 500
     new_game = False
     wait_time = 0
+    sad_wait_time = 0
+    sad_delay = 1000
+    sad_shift = False
     lit = False
     #while not message received. Make red flash
     while not new_game:
         current_time = running_time()
-        display.show(Image.SAD)
-        
+        #flashing lights
         if current_time > wait_time:
-            print(0)
             if lit:
-                print(1)
                 npix.clear()
                 lit = False
             else:
-                print(2)
                 lit = True
-                for pix in range(0, 10):
-                    npix[pix] = colours['red']
+                light_all('red')
                 
             wait_time = running_time() + flash_delay
             
+        #sad face
+        if current_time > sad_wait_time:
+            if sad_shift:
+                display.show(Image.SAD)
+                sad_shift = False
+            else:
+                display.show(Image.SAD.shift_up(1))
+                sad_shift = True
+            sad_wait_time = running_time() + sad_delay    
+
+def round_finished():
+    new_game = False
+    n = 0
+    wait_time = 0
+    happy_wait_time = 0
+    rainbow_delay = 100
+    happy_delay = 1000
+    happy_shift = False
+    
+    #until new_game message is received, flash rainbow and happy faces 
+    while not new_game:
+        current_time = running_time()
+        #rainbows
+        if current_time > wait_time:
+            for pix in range(len(npix)):
+                npix[(pix+n)%len(npix)] = RAINBOW[pix%len(RAINBOW)]
+            npix.show()
+            n += 1
+            wait_time = running_time() + rainbow_delay
+            
+        #happy face
+        if current_time > happy_wait_time:
+            if happy_shift:
+                display.show(Image.HAPPY)
+                happy_shift = False
+            else:
+                display.show(Image.HAPPY.shift_up(1))
+                happy_shift = True
+            happy_wait_time = running_time() + happy_delay
+        
+        #getting message to see if new_game
+        msg = radio.receive()
+        if msg:
+            unit_call, instruction, value = msg_split(msg)
+            if instruction == 'new_game':
+                new_game = True
+                display.clear()
+
 def button_press(unit_colour):
     press_delay = 400
     radio.send(unit_name + ':pressed:1')   #check
@@ -61,24 +108,6 @@ def button_press(unit_colour):
     while running_time() < wait_time:
         continue
     light_all(unit_colour)
-
-def round_finished():
-    new_game = False
-    n = 0
-    display.show(Image.HAPPY)
-    while new_game != True:
-        #rainbows
-        for pix in range(len(npix)):
-            npix[(pix+n)%len(npix)] = RAINBOW[pix%len(RAINBOW)]
-        npix.show()
-        n += 1
-        
-        msg = radio.receive()
-        if msg:
-            unit_call, instruction, value = msg_split(msg)
-            if instruction == 'new_game':
-                new_game = True
-                display.clear()
 
 def msg_split(msg):
     print(msg)
@@ -97,6 +126,7 @@ radio.on()
 radio.config(channel=73)
 #to get name from center unit
 radio.send("requestname")
+light_all('white')
 npix.clear()
 display.clear()
 
@@ -117,23 +147,22 @@ while set_up == False:
 while True:
     msg = radio.receive() #EXAMPLE: unit1:colour:red
     if msg:
+        print(msg)
         unit_call, instruction, value = msg_split(msg)
         #print(unit_call, instruction, value)
         
-        if unit_call == unit_name:
+        if unit_call == unit_name or unit_call == 'all':
             if instruction == 'incorrect':
                 incorrect()
             
             if instruction == 'round_finished':
                 round_finished()
                 
-            #if instruction == 'new_round':    
-            
             if instruction == 'colour':
                 set_colour(value)
                 unit_colour = value     #sets global value to colour
             
-    if button_a.was_pressed():          #sends signal to centre
+    if button_a.was_pressed() or button_b.was_pressed():          #sends signal to centre
         button_press(unit_colour) 
 
 #PROTOCOL    

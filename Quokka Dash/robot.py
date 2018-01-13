@@ -3,6 +3,7 @@ import radio
 
 radio.on()
 radio.config(channel=72)
+
 def amap(x, in_min, in_max, out_min, out_max):
     return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min
 
@@ -47,27 +48,27 @@ class Controller:
     MAX_SPEED = 0.6
     DELAY = 1000
     
-    
     def __init__(self, robot):
         self.robot = robot
         self.left_speed = 0
         self.right_speed = 0
         self.left_update = 0
         self.right_update = 0
-        self.led_update = 0
-        self.prev_leds = []
-        self.led_length = 5
-
+        
     def update(self):
         msg = radio.receive()
         if msg:
-            wheel, speed = msg.split(':')
-            speed = min(int(speed), 15)
-            print(msg)
+            # print(msg)
+            try:
+                wheel, speed = msg.split(':')
+            except:
+                return
+            speed = int(speed)
             if wheel == 'L':
                 self.left_speed = amap(speed, 0, 100, 0, Controller.MAX_SPEED)
                 if speed > 0:
                     self.left_update = running_time()
+            
                 
             elif wheel == 'R':
                 self.right_speed = amap(speed, 0, 100, 0, Controller.MAX_SPEED)
@@ -75,46 +76,12 @@ class Controller:
                     self.right_update = running_time()
                     
         if running_time() - self.left_update > Controller.DELAY:
-            self.left_speed = -0.2
+            self.left_speed = -0.3
         if running_time() - self.right_update > Controller.DELAY:
-            self.right_speed = -0.2
-            
+            self.right_speed = -0.3
+        print(self.left_speed, self.right_speed)
         self.robot.motors(self.left_speed, self.right_speed)
-    
-        if running_time() - self.led_update > Controller.LED_UPDATE:
-            display.clear()
-            while len(self.prev_leds) > self.led_length:
-                self.prev_leds.pop(0)
-            index = int(map(self.left_speed - self.right_speed, -1, 1, 0, 7) + 0.5)
-            self.prev_leds.append(self.END_POINTS[index])
-            print(self.prev_leds)
-            for i in range(len(self.prev_leds)):
-                x, y = self.prev_leds[i]
-                self.draw_line(Vector(2, 3), Vector(x, y), [1, 3, 5, 7, 9][5-len(self.prev_leds) + i])
-            self.led_update = running_time()
-            self.led_render()
         
-    def draw_line(self, start, end, brightness=9):
-        if start.x == end.x:
-            for y in range(start.y, end.y + [-1, 1][end.y > start.y], [-1, 1][start.y < end.y]):
-                self.led_array[y][start.x] = brightness
-                # display.set_pixel(start.x, y, brightness)
-            return
-        if start.x > end.x:
-            start, end = Vector(end.x, end.y), Vector(start.x, start.y)
-        m = (start.y - end.y) / (start.x - end.x)
-        c = start.y - m * start.x
-        length = int(Vector.mag(start - end) + 1) 
-        for gap in range(length + 1):
-            x = map(gap, 0, length, start.x, end.x)
-            y = m * x + c
-            self.led_array[constrain(int(y + 0.5), 0, 4)][constrain(int(x + 0.5), 0, 4)] = brightness
-            
-    def led_render(self):
-        for y, row in enumerate(self.led_array):
-            for x, item in enumerate(row):
-                display.set_pixel(x, y, item)
-                self.led_array[y][x] = 0
         
 thing = Robot([pin16, pin0], [pin12, pin8])
 person = Controller(thing)

@@ -2,6 +2,7 @@
 # https://trello.com/c/vSm7z3AP
 
 from microbit import *
+import random
 import radio
 
 class Server:

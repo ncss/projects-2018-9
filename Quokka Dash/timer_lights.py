@@ -5,7 +5,7 @@ red = pin13
 green = pin0
 
 #variable timer in seconds * 1024 (to make life easier) :D
-seconds = 10
+seconds = 3
 time_ms = seconds * 1000
 
 num_of_colours = 1024
@@ -20,10 +20,13 @@ for up, down in zip(range(num_of_colours), range(num_of_colours-1, 0, -1)):
     d = down
     sleep(time_ms/num_of_colours)
 print("mark")
-for i in range(1000, 0, 50):
+x = 1000
+while x > 5:
     red.write_analog(0)
-    green.write_analog(0)
-    sleep(i)
-    red.write_analog(up)
-    green.write_analog(down)
-    sleep(i)
+    print(x)
+    sleep(x)
+    red.write_analog(1023)
+    sleep(x)
+    x = x//1.5
+red.write_analog(0)
+green.write_analog(0)

@@ -22,10 +22,18 @@ while True:
             music.play(music.RINGTONE, wait=False)
             control = random.randint(1,8)
             radio.send("RNDM_INPT-" + str(control))
+            sleep(50)
+            radio.send("RNDM_INPT-" + str(control))
+            sleep(50)
+            radio.send("RNDM_INPT-" + str(control))
             display.show(str(control))
             print(control)
         elif msg == "INPT_RNDM-1":
             situp = sit[ind%20]
             ind += 1
+            radio.send("RNDM_SNSR-" + str(situp))
+            sleep(50)
+            radio.send("RNDM_SNSR-" + str(situp))
+            sleep(50)
             radio.send("RNDM_SNSR-" + str(situp))
             display.show(str(situp))

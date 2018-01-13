@@ -1,6 +1,7 @@
 from microbit import *
 import speech
 import radio
+import music
 
 radio.on()
 radio.config(channel = 69)
@@ -16,3 +17,7 @@ while True:
         module, is_module = sound_to_play.split(':')
         if is_module == 'is_module' and module in sounds:
             speech.say(sounds[module], speed = 50)
+        elif module == 'score' and is_module == 'lose':
+            music.play(music.WAWAWAWAA)
+        elif module == 'score' and is_module != 'lose':
+            speech.say(is_module)

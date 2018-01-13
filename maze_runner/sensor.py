@@ -15,14 +15,17 @@ while True:
             curr = temp
         
         if curr == "up" and prev == "face up":
-            print("sitting up")
+            #print("sitting up")
             situps_left -= 1
         
         display.show(str(situps_left))
         
         if not situps_left:
-            radio.send("SNSR_RNDM-1")
+            for in range(3):
+                radio.send("SNSR_RNDM-1")
+                sleep(50)
             display.show(Image.HAPPY)
+            radio.on()
         
         prev = curr
         radio.on()

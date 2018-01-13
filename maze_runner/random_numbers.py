@@ -17,7 +17,7 @@ print(situp)
 while True:
     msg = radio.receive()
     if msg:
-        print(msg)
+        #print(msg)
         if msg == "SNSR_RNDM-1":
             music.play(music.RINGTONE, wait=False)
             control = random.randint(1,8)
@@ -27,7 +27,7 @@ while True:
             sleep(50)
             radio.send("RNDM_INPT-" + str(control))
             display.show(str(control))
-            print(control)
+            #print(control)
         elif msg == "INPT_RNDM-1":
             situp = sit[ind%20]
             ind += 1

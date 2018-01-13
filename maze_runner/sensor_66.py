@@ -5,7 +5,7 @@ situps_left = 0
 prev = accelerometer.current_gesture()
 curr = prev
 radio.on()
-radio.config(channel=71)
+radio.config(channel=66)
 while True:
     if situps_left:
         display.show(str(situps_left))

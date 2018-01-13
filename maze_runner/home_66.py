@@ -20,7 +20,7 @@ def pin_was_pressed(pinX, previously_held):#, currently_held):
 num = 0
 count = 0
 radio.on()
-radio.config(channel=71)
+radio.config(channel=66)
 while True:
     if num:
         display.show(str(count))

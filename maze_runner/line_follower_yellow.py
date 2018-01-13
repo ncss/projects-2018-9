@@ -36,6 +36,7 @@ while True:
         msg_command = radio_msg.split('-')[1]
         if msg_command in move_commands:
             radio_move(msg_command)
+        radio.on()
     
     if button_a.was_pressed():
         move_toggle = not move_toggle

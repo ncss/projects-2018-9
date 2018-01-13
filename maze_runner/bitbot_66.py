@@ -4,7 +4,7 @@ import radio
 move_commands = ['forwards', 'left', 'right']
 
 radio.on()
-radio.config(channel=71)
+radio.config(channel=66)
 move_val = 1023
 
 def robot_move(r_value, l_value):

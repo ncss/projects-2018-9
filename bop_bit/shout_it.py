@@ -28,7 +28,7 @@ class Client:
 
 client = Client(69, "spin_it")
 
-debug = True
+debug = False 
 
 cur_val = 0
 prev_val = 0

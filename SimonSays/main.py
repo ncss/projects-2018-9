@@ -56,7 +56,8 @@ def shuffle(sequence):
     
     
 def new_game():
-    radio.send("all:newgame:1") #Client receives this and resets variables (possibly)
+
+    radio.send("all:new_game:1") #Client receives this and resets variables (possibly)
     
     colour_list = shuffle(colours)
     
@@ -83,6 +84,14 @@ def reset_game():
     progress = 0
     start = 0
     end = 0
+    round_count = 0
+    in_game = False
+    in_round = False
+    round_limit = 3
+    should_show_units = True
+    total_time = 0
+    sequence_length = 3
+
     pass
     
 progress = 0
@@ -92,32 +101,55 @@ round_count = 0
 in_game = False
 in_round = False
 round_limit = 3
+should_show_units = True
+total_time = 0
+sequence_length = 3
 
 while True:
     pressed = start_button.was_pressed()
-    if not in_game and pressed:
+    pressed_d = buttons.d.was_pressed()
+
+    if pressed_d:
+        print("Let's go")
         new_game()
-        
-    if not in_game:
+        progress = 0
+        start = 0
+        end = 0
+        round_count = 0
+        in_game = False
+        in_round = False
+        round_limit = 3
+        should_show_units = True
+        total_time = 0
+        sequence_length = 3
+
+    if not in_game and should_show_units:
         display.fill(0)
         display.text(str(len(units)), 5, 5, 1, scale=8) # second last argument is colour
         display.show()
         sleep(100)
 
     if not in_round and pressed:
+        display.fill(0)
+        display.show()
         radio.send("all:new_round:1")
         print("HERE")
         round_count += 1
-        sequence = generate_sequence(3)
+        sequence = generate_sequence(sequence_length)
+        sequence_length += 2
+
         print(sequence)
-        
-        flash_sequence(sequence)
-        start = running_time()
-        display.fill(0)
-        display.show()
+        progress = 0
         in_game = True
         in_round = True
-    receive = radio.receive()
+
+        flash_sequence(sequence) #Start timer after flashing sequence
+        start = running_time()
+    try:
+        receive = radio.receive()
+    except:
+        receive = None
+        
     if not receive:
         continue
     receive = receive.split(":")
@@ -141,22 +173,30 @@ while True:
             radio.send("%s:correct:1" % unit)
             print("Progress %d" % progress)
             print(len(sequence))
-            if progress == len(sequence):
+            if progress == len(sequence): #Finished Round
                 radio.send("all:round_finished:1")
+                end = running_time()
+                total_time += (end - start)
+                print(total_time)
+
                 if round_count >= round_limit:
-                    end = running_time()
+                   
+
+                    should_show_units = False
                     display.fill(0)
-                    
-                    display.text(str((end - start) / 1000) + "s", 5, 5, 1, scale=4) # second last argument is colour
+
+                    display.text("{0:.1f}".format(total_time / 1000) + "s", 5, 5, 1, scale=2) # second last argument is colour
+                    display.text("Woohoo!", 5, 30, 1, scale=2)
                     display.show()
                     in_round = False
                     in_game = False
                 else:
+                    
                     in_round = False
         else:
             print("Pressed %s, should've pressed %s" %(unit, sequence[progress]))
             radio.send("all:incorrect:1")
-            reset_game()
+
             #oh no it's wrong
     #unit1:pressed:1
     

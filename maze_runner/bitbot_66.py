@@ -4,7 +4,7 @@ import radio
 move_commands = ['forwards', 'left', 'right']
 
 radio.on()
-radio.config(channel=71)
+radio.config(channel=66)
 move_val = 1023
 
 def robot_move(r_value, l_value):
@@ -40,7 +40,7 @@ def radio_move(direct):
     stop_time = running_time() + move_time
     
     while (running_time() <= stop_time) and (pin11.read_digital() or pin5.read_digital()):
-        pass
+        continue
     robot_stop()
     
 while True:
@@ -50,7 +50,4 @@ while True:
         if msg_command in move_commands:
             radio_move(msg_command)
         #radio_move(radio_msg[10:])
-    else:
-        sleep(50)
-        continue
     radio.on()

@@ -1,6 +1,20 @@
 from quokka import *
 import drivers.tm1637
-from machine import Pin
+#from machine import Pin
+from machine import *
+radio.config(channel=62)
+radio.enable()
+
+while True:
+    msg = radio.receive()
+    if msg:
+        display.fill(1)
+        display.text(msg, 5, 5, 0)
+        display.show()
+    if buttons.a.was_pressed():
+      radio.send('a')
+
+'''
 tm = drivers.tm1637.TM1637(clk=Pin('X9'), dio=Pin('X10'))
 
 #timer
@@ -17,3 +31,4 @@ while True:
             if buttons.d.was_pressed():
                 end_button = True
 # * means unpack tuple
+'''

@@ -2,38 +2,45 @@ from microbit import *
 import neopixel
 import radio
 
-class Client:
-	"""Sends trigger messages to a server on the same channel"""
-	def __init__(self, chan, name):
-		self.channel = chan
-		self.name = name.lower()
-		radio.on()
-		radio.config(channel = self.channel)
-		#print("Configured Client")
+radio.on()
+radio.config(channel = 69)
 
-	def send_trigger(self):
-		message = self.name
-		message += ":"
-		message += "triggered"
-		radio.send(message)
-		#print("Sent: " + message)
+scores = [
+    ("red", 0),
+    ("green", 0),
+    ("blue", 0),
+    ("magenta", 0),
+    ("cyan", 0),
+    ("yellow", 0),
+]
 
-	def send_alive(self):
-		message = self.name
-		message += ":"
-		message += "alive"
-		#print("Sent: " + message)
-        
-# each person gets a 4-character name, top 3 shown
-leaderboard_scores = [(0, 'n'), (0, 'n'), (0, 'n')]
+colors = {
+    "red" : (255, 0, 0),
+    "green" : (0, 255, 0),
+    "blue" : (0, 0, 255),
+    "magenta" : (255, 0, 255),
+    "cyan" : (0, 255, 255),
+    "yellow" : (255, 255, 0),
+}
 
-sc = input('What is the number? ')
+colors_list = ['red', 'green', 'blue', 'magenta', 'cyan', 'yellow']
+current_colour_i = 0
+colour = colors_list[current_colour_i]
 
-while sc:
-    sc = tuple((int(sc.split(', ')[0]), (sc.split(', ')[1])[:4]))
-    leaderboard_scores.append(sc)
-    leaderboard_scores = sorted(leaderboard_scores, key=lambda score_tuple: score_tuple[0], reverse=True)[:-1]
-    sc = input('What is the number? ')
+board = neopixel.NeoPixel(pin0, 10)
 
-
-
+while True:
+    msg = radio.receive()
+    if msg:
+        msg = msg.split(":")
+        if msg[0] == "score":
+            if msg[1] = "new_game":
+                current_colour_i += 1
+                current_colour_i %= 6
+                colour = colors_list[current_colour_i]
+                # move to different color
+            else:
+                board[:msg[1]] = colors[colour]
+                board.show()
+                # set current color to score
+                # then display 

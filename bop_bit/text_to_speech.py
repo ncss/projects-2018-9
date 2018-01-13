@@ -1,14 +1,18 @@
 from microbit import *
 import speech
+import radio
 
-sounds = {'Bop it': 'Bop- it?', 'Pull it': 'Pull- it?', 'Twist it': 'Twist- it?', 'Shake it': 'Shake- it?', 
-'Spin it': 'Spin- it?', 'Shout it': 'Shout- it?'}
+radio.on()
+radio.config(channel = 69)
+
+sounds = {'bop_it': 'Bop- it?', 'pull_it': 'Pull- it?', 'twist_it': 'Twist- it?', 'shake_it': 'Shake- it?', 
+'spin_it': 'Spin- it?', 'shout_it': 'Shout- it?'}
 
 SPEED = 20
 
-speech.say('Shake- it?')
-speech.say('Bop- it?')
-speech.say('Pull- it?')
-speech.say('Twist- it?')
-speech.say('Spin- it?')
-speech.say('Shout- it?')
+while True:
+    sound_to_play = radio.receive()
+    if sound_to_play:
+        sound_to_play.split(':')
+        if sound_to_play[1] == 'is_module':
+            speech.say(sounds[sound_to_play[0]]
